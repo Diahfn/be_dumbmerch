@@ -29,7 +29,8 @@ const {
     // deleteUser
 } = require('../controllers/user')
 
-const { addProfile } = require('../controllers/profile')
+const { addProfile, getProfile } = require('../controllers/profile')
+const { addTransaction, getTransaction } = require('../controllers/transaction')
 
 const { auth } = require('../middlewares/auth')
 const { uploadFiles } = require('../middlewares/uploadFiles')
@@ -47,6 +48,10 @@ router.get('/product/:id', auth, getProduct)
 router.get('/products', auth, getAllProducts)
 
 router.post('/profile', auth, uploadFiles('image'), addProfile)
+router.get('/profile/:id', auth, getProfile)
+
+router.post('/transaction', auth, addTransaction)
+router.get('/transactions', auth, getTransaction)
 
 // Route categories
 router.post('/category', addCategory)

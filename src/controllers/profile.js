@@ -17,6 +17,9 @@ exports.addProfile = async (req, res) => {
         let data = await profile.findOne({
             where: {
                 id: newProfile.id
+            },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
             }
         })
 
@@ -38,4 +41,42 @@ exports.addProfile = async (req, res) => {
         })
     }
 
+}
+
+exports.getProfile = async (req, res) => {
+    try {
+
+        const idUser = req.user.id
+
+        let data = await profile.findOne({
+            where: {
+                idUser
+            },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        })
+
+        data = JSON.parse(JSON.stringify(data))
+
+        data = {
+            ...data,
+            image: data.image ? process.env.PATH_FILE + data.image : null
+            // image: process.env.PATH_FILE + data.image
+        }
+
+        res.send({
+            status: 'Success',
+            data: {
+                data
+            }
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.send({
+            status: 'Failed',
+            message: 'Server Error'
+        })
+    }
 }

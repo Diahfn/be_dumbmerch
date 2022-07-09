@@ -95,6 +95,9 @@ exports.getAllProducts = async (req, res) => {
                         model: productCategory,
                         as: 'bridge',
                         attributes: []
+                    },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
                     }
                 }
             ],
@@ -154,6 +157,9 @@ exports.getProduct = async (req, res) => {
                         model: productCategory,
                         as: 'bridge',
                         attributes: []
+                    },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
                     }
                 }
             ],
@@ -188,11 +194,11 @@ exports.getProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     
-
     try {
         const { id } = req.params
 
         let { categoryId } = req.body
+        console.log(categoryId)
         categoryId = await categoryId.split(',')
 
         const product = {
@@ -219,9 +225,7 @@ exports.updateProduct = async (req, res) => {
         }
 
         if (productCategoryData.length != 0) {
-            await productC
-            
-            ategory.bulkCreate(productCategoryData)
+            await productCategory.bulkCreate(productCategoryData)
         }
 
         await products.update(product, {

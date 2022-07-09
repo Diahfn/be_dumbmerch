@@ -18,6 +18,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
 
+      products.hasMany(models.transaction, {
+        as: 'transactions',
+        foreignKey: {
+          name: 'idProduct'
+        }
+      })
+
       products.belongsToMany(models.categories, {
         as: 'category',
         through: {
